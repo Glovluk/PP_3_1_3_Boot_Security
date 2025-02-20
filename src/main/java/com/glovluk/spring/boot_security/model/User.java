@@ -2,6 +2,7 @@ package com.glovluk.spring.boot_security.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
@@ -32,6 +33,10 @@ public class User implements UserDetails {
     @NotBlank(message = "Surname cannot be empty!")
     private String surname;
 
+    @Column(name = "age")
+    @Pattern(regexp = "^\\d+$", message = "Age must be a positive integer")
+    private String age;
+
     @Column(name = "company")
     private String company;
 
@@ -39,7 +44,8 @@ public class User implements UserDetails {
     private String department;
 
     @Column(name = "salary")
-    private double salary;
+    @Pattern(regexp = "^\\d*\\.?\\d+$", message = "Salary must be a positive number")
+    private String salary;
 
     @Column(name = "email", unique = true)
     @NotBlank(message = "Email cannot be empty")
@@ -61,10 +67,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String surname, String company, String department,
-                double salary, String email, String password) {
+    public User(String name, String surname, String age, String company, String department,
+                String salary, String email, String password) {
         this.name = name;
         this.surname = surname;
+        this.age = age;
         this.company = company;
         this.department = department;
         this.salary = salary;
@@ -96,6 +103,14 @@ public class User implements UserDetails {
         this.surname = surname;
     }
 
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
     public String getCompany() {
         return company;
     }
@@ -112,11 +127,11 @@ public class User implements UserDetails {
         this.department = department;
     }
 
-    public double getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 

@@ -12,12 +12,16 @@ import java.util.List;
 @Component
 public class RoleInitializer {
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
+    public RoleInitializer(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     @PostConstruct
     public void initializeRoles() {
-        List<String> roleNames = Arrays.asList("ROLE_USER", "ROLE_ADMIN");
+        List<String> roleNames = Arrays.asList("USER", "ADMIN");
 
         for (String roleName : roleNames) {
             if (roleRepository.findByName(roleName) == null) {

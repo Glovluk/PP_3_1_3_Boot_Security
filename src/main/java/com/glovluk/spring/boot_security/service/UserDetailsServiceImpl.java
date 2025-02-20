@@ -3,6 +3,7 @@ package com.glovluk.spring.boot_security.service;
 import com.glovluk.spring.boot_security.model.User;
 import com.glovluk.spring.boot_security.repository.RoleRepository;
 import com.glovluk.spring.boot_security.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,9 +35,9 @@ public class UserDetailsServiceImpl implements UserDetails {
 
     @Override
     @Transactional
-    public User createAndSaveUser(User user) {
+    public User createAndSaveUser(@Valid User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Set.of(roleRepository.findByName("ROLE_USER")));
+        user.setRoles(Set.of(roleRepository.findByName("USER")));
 
         return userRepository.save(user);
     }
