@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Information</title>
+    <title>Table of users</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         table {
@@ -20,14 +20,37 @@
             background-color: lightgray;
         }
 
-        .logout-container {
-            text-align: right;
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 15px;
         }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-user-button {
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .sign-out-button {
+            background-color: #dc3545;
+            color: white;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
 <div class="container p-4">
-    <h1>User Information</h1>
+    <h1>Table of users</h1>
     <table>
         <thead>
         <tr>
@@ -38,10 +61,11 @@
             <th>Salary</th>
             <th>Email</th>
             <th>Password</th>
+            <th>Operations</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr th:each="user : ${allUsers}">
             <td th:text="${user.name}"></td>
             <td th:text="${user.surname}"></td>
             <td th:text="${user.company}"></td>
@@ -49,17 +73,28 @@
             <td th:text="${user.salary}"></td>
             <td th:text="${user.email}"></td>
             <td>*****</td>
+            <td style="white-space: nowrap;">
+                <a th:href="@{/updateinfo(userId=${user.id})}"
+                   class="btn btn-primary btn-sm">Update</a>
+                <form th:action="@{/deleteUser(userId=${user.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
     <br>
-    <div class="logout-container">
+
+    <div class="button-container">
+        <form th:action="@{/addNewUser}" method="get">
+            <button type="submit" class="button add-user-button">Add user</button>
+        </form>
+
         <form th:action="@{/logout}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button type="submit" class="btn btn-danger">Sign Out</button>
+            <button type="submit" class="button sign-out-button">Sign Out</button>
         </form>
     </div>
 </div>
 </body>
 </html>
-
