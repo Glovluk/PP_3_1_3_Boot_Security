@@ -1,7 +1,7 @@
 package com.glovluk.spring.boot_security.configs;
 
 import com.glovluk.spring.boot_security.model.Role;
-import com.glovluk.spring.boot_security.repository.RoleRepository;
+import com.glovluk.spring.boot_security.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +12,11 @@ import java.util.List;
 @Component
 public class RoleInitializer {
 
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     @Autowired
-    public RoleInitializer(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public RoleInitializer(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @PostConstruct
@@ -24,10 +24,11 @@ public class RoleInitializer {
         List<String> roleNames = Arrays.asList("USER", "ADMIN");
 
         for (String roleName : roleNames) {
-            if (roleRepository.findByName(roleName) == null) {
+            if (roleService.findByName(roleName) == null) {
                 Role role = new Role();
                 role.setName(roleName);
-                roleRepository.save(role);
+
+                roleService.save(role);
             }
         }
     }

@@ -1,40 +1,37 @@
 package com.glovluk.spring.boot_security.configs;
 
 import com.glovluk.spring.boot_security.model.User;
-import com.glovluk.spring.boot_security.repository.RoleRepository;
-import com.glovluk.spring.boot_security.repository.UserRepository;
+import com.glovluk.spring.boot_security.service.RoleService;
+import com.glovluk.spring.boot_security.service.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 @Component
 @DependsOn("roleInitializer")
 public class AdminInitializer {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminInitializer(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+    public AdminInitializer(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
     @PostConstruct
     public void initializeAdmin() {
-        if (userRepository.findByName("admin").isEmpty()) {
+        if (userService.findByName("admin").isEmpty()) {
             User admin = new User("admin", "admin", "18", "---", "---",
                     "100", "admin@mail.ru", "admin");
-            admin.setRoles(Set.of(roleRepository.findByName("ADMIN")));
-            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+            admin.setRoles(List.of(roleService.findByName("ADMIN")));
 
-            userRepository.save(admin);
+            userService.save(admin);
         }
     }
 }

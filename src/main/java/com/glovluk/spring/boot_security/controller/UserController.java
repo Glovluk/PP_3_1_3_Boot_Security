@@ -1,6 +1,6 @@
 package com.glovluk.spring.boot_security.controller;
 
-import com.glovluk.spring.boot_security.service.UserDetails;
+import com.glovluk.spring.boot_security.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,12 +19,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserDetails userDetails;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService, UserDetails userDetails) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.userDetails = userDetails;
+        this.roleService = roleService;
     }
 
     @GetMapping("/admin")
@@ -39,13 +39,14 @@ public class UserController {
     public String addNewUser(Model model) {
         User user = new User();
         model.addAttribute("user", user);
+        model.addAttribute("allRoles", roleService.findAll());
 
         return "users-info";
     }
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute("user") User user) {
-        userDetails.createAndSaveUser(user);
+        userService.save(user);
 
         return "redirect:/admin";
     }

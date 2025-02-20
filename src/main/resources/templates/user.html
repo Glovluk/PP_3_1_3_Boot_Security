@@ -38,6 +38,7 @@
             <th>Department</th>
             <th>Salary</th>
             <th>Email</th>
+            <th>Roles</th>
             <th>Password</th>
         </tr>
         </thead>
@@ -50,6 +51,9 @@
             <td th:text="${user.department}"></td>
             <td th:text="${user.salary}"></td>
             <td th:text="${user.email}"></td>
+            <td>
+                <span th:each="role : ${user.roles}" th:text="${role.name} + ' '"></span>
+            </td>
             <td>*****</td>
         </tr>
         </tbody>

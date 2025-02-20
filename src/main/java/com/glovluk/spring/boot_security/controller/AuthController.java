@@ -1,7 +1,7 @@
 package com.glovluk.spring.boot_security.controller;
 
 import com.glovluk.spring.boot_security.model.User;
-import com.glovluk.spring.boot_security.service.UserDetails;
+import com.glovluk.spring.boot_security.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller@RequestMapping("/auth")
 public class AuthController {
 
-    private final UserDetails userDetailsService;
+    private final UserService userService;
 
     @Autowired
-    public AuthController(UserDetails userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping("/login")
@@ -45,8 +45,11 @@ public class AuthController {
         }
 
         try {
-            userDetailsService.createAndSaveUser(user);
-            return "redirect:/auth/login";
+            if (userService.save(user) != null) {
+                return "redirect:/auth/login";
+            } else {
+                return "redirect:/auth/registration";
+            }
         } catch (Exception e) {
             model.addAttribute("registrationError", "Registration failed. "
                     + e.getMessage());

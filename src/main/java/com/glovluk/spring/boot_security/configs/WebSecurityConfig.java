@@ -2,7 +2,7 @@ package com.glovluk.spring.boot_security.configs;
 
 import com.glovluk.spring.boot_security.repository.RoleRepository;
 import com.glovluk.spring.boot_security.repository.UserRepository;
-import com.glovluk.spring.boot_security.service.UserDetailsServiceImpl;
+import com.glovluk.spring.boot_security.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,7 +57,7 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl(userRepository, roleRepository, passwordEncoder());
+        return new UserServiceImpl(userRepository, roleRepository, passwordEncoder());
     }
 
     @Bean
