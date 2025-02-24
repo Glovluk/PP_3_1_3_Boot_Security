@@ -31,5 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/node_modules/
-/node_modules/
+
+/src/main/resources/examples/
+

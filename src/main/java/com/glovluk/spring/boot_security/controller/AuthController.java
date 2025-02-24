@@ -27,7 +27,7 @@ public class AuthController {
     @RequestMapping("/login")
     public String loginPage() {
 
-        return "auth/login";
+        return "auth/login-bootstrap";
     }
 
     @GetMapping("/registration")
@@ -47,7 +47,7 @@ public class AuthController {
 
         try {
             if (userService.save(user) != null) {
-                return "redirect:/auth/login";
+                return "redirect:/auth/login-bootstrap";
             } else {
                 return "redirect:/auth/registration";
             }
