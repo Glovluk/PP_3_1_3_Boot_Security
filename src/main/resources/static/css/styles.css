@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa;
+}
+.container {
+    width: 30%;
+    margin-top: 50px;
+}
+.form-group {
+    width: 100%;
+    display: block;
+    margin: 10px auto 15px;
+}
+.form-control {
+    padding: 10px;
+    margin: 1px auto 0;
+}
+.btn-primary {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+.btn-danger {
+    width: 100%;
+    display: block;
+    margin: 10px auto 0;
+}
+.alert {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
