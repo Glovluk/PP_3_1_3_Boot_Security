@@ -15,6 +15,7 @@ import com.glovluk.spring.boot_security.repository.UserRepository;
 
 import java.util.List;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -62,7 +63,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User save(@Valid User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String passFromDB = userRepository.findPasswordByEmail(user.getEmail());
+
+        String newPass = Objects.equals(passFromDB, user.getPassword()) ?
+                passFromDB : passwordEncoder.encode(user.getPassword());
+        user.setPassword(newPass);
 
         //установка роли по умолчанию, при регистрации
         if (user.getRoles().isEmpty()) {
