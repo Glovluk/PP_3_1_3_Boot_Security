@@ -1,5 +1,7 @@
 package com.glovluk.spring.boot_security.controller;
 
+import com.glovluk.spring.boot_security.model.Role;
+import com.glovluk.spring.boot_security.repository.RoleRepository;
 import com.glovluk.spring.boot_security.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,18 +15,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.glovluk.spring.boot_security.model.User;
 import com.glovluk.spring.boot_security.service.UserService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService) {
+    public UserController(UserService userService, RoleService roleService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleService = roleService;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping("/admin")
@@ -41,21 +49,35 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleService.findAll());
 
-        return "users-info";
+        return "user-info";
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("user") User user,
+                           @RequestParam(value = "roles", required = false) List<Long> roleId) {
+
+        Set<Role> roles = new HashSet<>();
+        if (roleId != null) {
+            roles = roleId.stream()
+                    .map(roleRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toSet());
+        }
+
+        user.setRoles(roles);
+
         userService.save(user);
 
         return "redirect:/admin";
     }
 
-    @GetMapping("/updateinfo")
+    @GetMapping("/update-info")
     public String updateUser(@RequestParam("userId") Long id, Model model) {
         model.addAttribute("user", userService.findById(id));
+        model.addAttribute("allRoles", roleService.findAll());
 
-        return "users-info";
+        return "user-info";
     }
 
     @PostMapping("/deleteUser")

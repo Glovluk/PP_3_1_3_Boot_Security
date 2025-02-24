@@ -2,6 +2,7 @@ package com.glovluk.spring.boot_security.service;
 
 
 import com.glovluk.spring.boot_security.repository.RoleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -63,8 +64,10 @@ public class UserServiceImpl implements UserService {
     public User save(@Valid User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        if (user.getRoles() != null) {
-            user.setRoles(List.of(roleRepository.findByName("USER")));
+        //установка роли по умолчанию, при регистрации
+        if (user.getRoles().isEmpty()) {
+            user.setRoles(Set.of(roleRepository.findByName("USER")
+                    .orElseThrow(() -> new EntityNotFoundException("Role not found"))));
         }
 
         return userRepository.save(user);

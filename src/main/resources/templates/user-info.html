@@ -80,11 +80,13 @@
         <div class="form-group">
             <label>Roles:</label>
             <div th:each="role : ${allRoles}" class="form-check">
-                <input type="checkbox"
-                       th:field="*{roles}"
-                       th:value="${role.id}"
-                       th:id="${'role-' + role.id}"
-                       class="form-check-input"/>
+                <label>
+                    <input type="checkbox"
+                           th:field="*{roles}"
+                           th:value="${role.id}"
+                           th:id="${'role-' + role.id}"
+                           class="form-check-input"/>
+                </label>
                 <label class="form-check-label" th:for="${'role-' + role.id}" th:text="${role.name}">Role Name</label>
             </div>
         </div>

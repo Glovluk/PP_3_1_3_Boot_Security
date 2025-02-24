@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -29,7 +28,7 @@ public class AdminInitializer {
         if (userService.findByName("admin").isEmpty()) {
             User admin = new User("admin", "admin", "18", "---", "---",
                     "100", "admin@mail.ru", "admin");
-            admin.setRoles(List.of(roleService.findByName("ADMIN")));
+            admin.setRoles(Set.of(roleService.findByName("ADMIN")));
 
             userService.save(admin);
         }

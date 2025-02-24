@@ -80,7 +80,7 @@
             </td>
             <td>*****</td>
             <td style="white-space: nowrap;">
-                <a th:href="@{/updateinfo(userId=${user.id})}"
+                <a th:href="@{/update-info(userId=${user.id})}"
                    class="btn btn-primary btn-sm">Update</a>
                 <form th:action="@{/deleteUser(userId=${user.id})}" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
