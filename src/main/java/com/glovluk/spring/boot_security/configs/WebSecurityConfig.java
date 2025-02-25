@@ -34,21 +34,21 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/auth/login", "/auth/registration").permitAll()
+                        .requestMatchers("/auth/login-bootstrap", "/auth/registration-bootstrap").permitAll()
                         .requestMatchers("user").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("admin", "user-info").hasRole("ADMIN")
+                        .requestMatchers("admin-bootstrap", "user-info").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/auth/login")
+                        .loginPage("/auth/login-bootstrap")
                         .loginProcessingUrl("/process_login")
                         .successHandler(successUserHandler)
-                        .failureUrl("/auth/login?error")
+                        .failureUrl("/auth/login-bootstrap?error")
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/auth/login")
+                        .logoutSuccessUrl("/auth/login-bootstrap")
                         .permitAll()
                 )
                 .userDetailsService(userDetailsService());

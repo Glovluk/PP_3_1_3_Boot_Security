@@ -188,4 +188,12 @@ public class User implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
                 .collect(Collectors.toList());
     }
+
+    // Метод для получения ролей без префикса ROLE_ и []
+    public String getRolesWithoutPrefix() {
+        return roles.stream()
+                .map(GrantedAuthority::getAuthority)
+                .map(role -> role.startsWith("ROLE_") ? role.substring(5) : role)
+                .collect(Collectors.joining(" "));
+    }
 }

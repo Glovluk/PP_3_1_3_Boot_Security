@@ -24,19 +24,19 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/login-bootstrap")
     public String loginPage() {
 
         return "auth/login-bootstrap";
     }
 
-    @GetMapping("/registration")
+    @GetMapping("/registration-bootstrap")
     public String registrationPage(@ModelAttribute("user") User user) {
 
         return "auth/registration-bootstrap";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/registration-bootstrap")
     public String performRegistration(@Valid @ModelAttribute("user") User user,
                                       BindingResult bindingResult,
                                       Model model) {

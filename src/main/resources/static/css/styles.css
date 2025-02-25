@@ -2,30 +2,81 @@ body {
     background-color: #f8f9fa;
 }
 .container {
-    width: 30%;
-    margin-top: 50px;
-}
-.form-group {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
     width: 100%;
-    display: block;
-    margin: 0 auto 10px;
+}
+.top-container {
+    background-color: #403e3e;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 5px;
+}
+.central-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+.left-container {
+    background-color: #ffffff;
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+    margin-top: 20px;
+}
+.right-container {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 7;
+    padding: 20px;
+}
+.form-group-login {
+    flex: max-content;
+    min-width: 300px;
+    margin: 50px auto 0;
+}
+.header {
+    display: flex;
+    justify-content: flex-start;
+    padding: 5px;
+    margin: 0 15px 0;
 }
 .form-control {
     padding: 10px;
     margin: 0 auto 0;
 }
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    gap: 5px;
+    padding: 10px;
+}
 .btn-primary {
     width: 100%;
     display: block;
-    margin: 10px auto 0;
 }
 .btn-danger {
     width: 100%;
     display: block;
-    margin: 10px auto 0;
+}
+.btn-logout, .btn-logout:hover, .btn-logout:focus {
+    color: #a19e9e;
+}
+.user-info {
+    color: #f3f3f6;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
 }
 .alert {
     width: 100%;
     display: block;
     margin: 10px auto 0;
+    text-align: center;
 }

@@ -11,31 +11,35 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<!--вся форма логина сгруппировано в один контейнер-->
+<!--вся форма логина сгруппирована в один контейнер-->
 <div class="container">
-    <h1 class="text-left">Please sign in</h1>
     <form name="form" method="post" action="/process_login">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="form-group-login">
+            <h1 class="text-center">Please sign in</h1>
+<!--            блок полей ввода-->
+            <div class="d-grid gap-2">
+<!--                поле ввода эл. почты-->
+                <label for="username"></label>
+                <input type="email" name="username" id="username" class="form-control" placeholder="Email address" required>
 
-        <div class="form-group">
-<!--            поле ввода эл. почты-->
-            <label for="username"></label>
-            <input type="email" name="username" id="username" class="form-control" placeholder="Email address" required>
+<!--                поле ввода пароля-->
+                <label for="password"></label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required/>
+            </div>
 
-<!--            поле ввода пароля-->
-            <label for="password"></label>
-            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required/>
+<!--            блок кнопок-->
+            <div class="d-grid gap-2">
+<!--                кнопка логина-->
+                <input type="submit" value="Sign in" class="btn btn-primary" style="margin: 10px auto 0;"/>
+<!--                кнопка регистрации-->
+                <a th:href="@{/auth/registration-bootstrap}" class="btn btn-danger" style="margin: 1px auto 0;">Registration</a>
+            </div>
 
-<!--        кнопка логина-->
-            <input type="submit" value="Sign in" class="btn btn-primary"/>
-
-<!--            кнопка регистрации-->
-            <a th:href="@{/auth/registration}" class="btn btn-danger">Registration</a>
-        </div>
-
-<!--        уведомление об ошибке-->
-        <div th:if="${param.error}" class="alert alert-danger mt-3">
-            Incorrect email or password
+<!--            уведомление об ошибке-->
+            <div th:if="${param.error}" class="alert alert-danger mt-3">
+                Incorrect email or password
+            </div>
         </div>
     </form>
 </div>

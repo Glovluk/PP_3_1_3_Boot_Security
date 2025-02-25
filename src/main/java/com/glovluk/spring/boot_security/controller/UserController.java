@@ -35,12 +35,12 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/admin-bootstrap")
     public String showAllUsers(Model model) {
         List<User> allUsers = userService.findAll();
         model.addAttribute("allUsers", allUsers);
 
-        return "admin";
+        return "admin-bootstrap";
     }
 
     @GetMapping("/addNewUser")
@@ -69,7 +69,7 @@ public class UserController {
 
         userService.save(user);
 
-        return "redirect:/admin";
+        return "redirect:/admin-bootstrap";
     }
 
     @GetMapping("/update-info")
@@ -84,7 +84,7 @@ public class UserController {
     public String deleteUser(@RequestParam("userId") Long id) {
         userService.delete(id);
 
-        return "redirect:/admin";
+        return "redirect:/admin-bootstrap";
     }
 
     @GetMapping("/user")
