@@ -1,7 +1,6 @@
 package com.glovluk.spring.boot_security.controller;
 
 import com.glovluk.spring.boot_security.model.Role;
-import com.glovluk.spring.boot_security.repository.RoleRepository;
 import com.glovluk.spring.boot_security.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,9 +16,7 @@ import com.glovluk.spring.boot_security.service.UserService;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -58,8 +55,7 @@ public class UserController {
     public String saveUser(@ModelAttribute("user") User user,
                            @RequestParam(value = "roles", required = false) List<Long> roleIds) {
 
-        Set<Role> roles = new HashSet<>();
-        roles = roleService.findAllRolesByIds(roleIds);
+        Set<Role> roles = roleService.findAllRolesByIds(roleIds);
         user.setRoles(roles);
 
         userService.save(user);

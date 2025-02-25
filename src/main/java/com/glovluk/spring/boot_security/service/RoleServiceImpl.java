@@ -4,6 +4,7 @@ import com.glovluk.spring.boot_security.model.Role;
 import com.glovluk.spring.boot_security.repository.RoleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -39,7 +40,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Optional<Role> findById(Long roleId) {
+    public Optional<Role> findById(@NonNull Long roleId) {
         return roleRepository.findById(roleId);
     }
 
