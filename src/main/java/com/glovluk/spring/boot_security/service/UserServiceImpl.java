@@ -63,19 +63,28 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User save(@Valid User user) {
+        handlePassword(user);
+
+        defaultRole(user);
+
+        return userRepository.save(user);
+    }
+
+    //установка роли по умолчанию, при регистрации
+    private void defaultRole(User user) {
+        if (user.getRoles().isEmpty()) {
+            user.setRoles(Set.of(roleRepository.findByName("USER")
+                    .orElseThrow(() -> new EntityNotFoundException("Role not found"))));
+        }
+    }
+
+    //проверка менялся ли пароль пользователем
+    private void handlePassword(User user) {
         String passFromDB = userRepository.findPasswordByEmail(user.getEmail());
 
         String newPass = Objects.equals(passFromDB, user.getPassword()) ?
                 passFromDB : passwordEncoder.encode(user.getPassword());
         user.setPassword(newPass);
-
-        //установка роли по умолчанию, при регистрации
-        if (user.getRoles().isEmpty()) {
-            user.setRoles(Set.of(roleRepository.findByName("USER")
-                    .orElseThrow(() -> new EntityNotFoundException("Role not found"))));
-        }
-
-        return userRepository.save(user);
     }
 
     @Override

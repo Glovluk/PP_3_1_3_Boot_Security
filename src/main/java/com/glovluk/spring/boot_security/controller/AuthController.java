@@ -55,7 +55,7 @@ public class AuthController {
             model.addAttribute("registrationError", "Registration failed. "
                     + e.getMessage());
 
-            return "auth/registration-bootstrap";
+            return "auth/login-bootstrap";
         }
     }
 }

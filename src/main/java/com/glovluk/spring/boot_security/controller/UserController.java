@@ -26,45 +26,40 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService, RoleRepository roleRepository) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.roleRepository = roleRepository;
     }
 
     @GetMapping("/admin-bootstrap")
     public String showAllUsers(Model model) {
         List<User> allUsers = userService.findAll();
+        User user = new User();
+
         model.addAttribute("allUsers", allUsers);
+        model.addAttribute("user", user);
+        model.addAttribute("allRoles", roleService.findAll());
 
         return "admin-bootstrap";
     }
 
-    @GetMapping("/addNewUser")
-    public String addNewUser(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        model.addAttribute("allRoles", roleService.findAll());
-
-        return "user-info";
-    }
+//    @GetMapping("/admin-add-user-bootstrap")
+//    public String addNewUser(Model model) {
+//        User user = new User();
+//        model.addAttribute("user", user);
+//        model.addAttribute("allRoles", roleService.findAll());
+//
+//        return "admin-add-user-bootstrap";
+//    }
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute("user") User user,
-                           @RequestParam(value = "roles", required = false) List<Long> roleId) {
+                           @RequestParam(value = "roles", required = false) List<Long> roleIds) {
 
         Set<Role> roles = new HashSet<>();
-        if (roleId != null) {
-            roles = roleId.stream()
-                    .map(roleRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toSet());
-        }
-
+        roles = roleService.findAllRolesByIds(roleIds);
         user.setRoles(roles);
 
         userService.save(user);
@@ -87,7 +82,7 @@ public class UserController {
         return "redirect:/admin-bootstrap";
     }
 
-    @GetMapping("/user")
+    @GetMapping("/user-bootstrap")
     public String showUserPage(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -100,7 +95,7 @@ public class UserController {
             }
         }
 
-        return "user";
+        return "user-bootstrap";
     }
 }
 

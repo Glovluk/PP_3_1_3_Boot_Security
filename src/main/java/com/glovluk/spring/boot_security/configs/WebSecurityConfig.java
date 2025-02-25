@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/auth/login-bootstrap", "/auth/registration-bootstrap").permitAll()
-                        .requestMatchers("user").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("user-bootstrap").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("admin-bootstrap", "user-info").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -48,7 +48,7 @@ public class WebSecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/auth/login-bootstrap")
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 )
                 .userDetailsService(userDetailsService());
