@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.glovluk.spring.boot_security.model.User;
 import com.glovluk.spring.boot_security.service.UserService;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
