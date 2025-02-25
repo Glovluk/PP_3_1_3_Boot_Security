@@ -33,7 +33,7 @@ public class AuthController {
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user") User user) {
 
-        return "auth/registration";
+        return "auth/registration-bootstrap";
     }
 
     @PostMapping("/registration")
@@ -42,20 +42,20 @@ public class AuthController {
                                       Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "auth/registration";
+            return "auth/registration-bootstrap";
         }
 
         try {
             if (userService.save(user) != null) {
                 return "redirect:/auth/login-bootstrap";
             } else {
-                return "redirect:/auth/registration";
+                return "redirect:/auth/registration-bootstrap";
             }
         } catch (Exception e) {
             model.addAttribute("registrationError", "Registration failed. "
                     + e.getMessage());
 
-            return "auth/registration";
+            return "auth/registration-bootstrap";
         }
     }
 }
