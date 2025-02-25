@@ -107,8 +107,8 @@
                     <header class="header">
                         <h5 style="margin-top: 5px">Add new user</h5>
                     </header>
-                    <form th:method="POST" th:action="@{/auth/registration-bootstrap}" th:object="${user}">
-                        <div class="mb-3"> <!-- Используем Bootstrap для отступов -->
+                    <form th:method="POST" th:action="@{/saveUser}" th:object="${user}" style="width: 30%; margin: 0 auto 0">
+                        <div class="mb-3">
                             <label for="name" class="form-label">First Name:</label>
                             <input type="text" th:field="*{name}" id="name" class="form-control" placeholder="First name" required/>
                         </div>
@@ -148,7 +148,21 @@
                             <input type="password" th:field="*{password}" id="password" class="form-control" placeholder="Enter password" required/>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Add new user</button>
+                        <div class="form-group">
+                            <label>Roles:</label>
+                            <div th:each="role : ${allRoles}" class="form-check">
+                                <label>
+                                    <input type="checkbox"
+                                           th:field="*{roles}"
+                                           th:value="${role.id}"
+                                           th:id="${'role-' + role.id}"
+                                           class="form-check-input"/>
+                                </label>
+                                <label class="form-check-label" th:for="${'role-' + role.id}" th:text="${role.name}">Role Name</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Add new user</button>
                     </form>
                 </div>
             </div>

@@ -69,6 +69,11 @@ body {
 .btn-logout, .btn-logout:hover, .btn-logout:focus {
     color: #a19e9e;
 }
+.btn-success {
+    display: block;
+    margin: 0 auto 0;
+    width: fit-content;
+}
 .user-info {
     color: #f3f3f6;
     font-family: Arial, sans-serif;
